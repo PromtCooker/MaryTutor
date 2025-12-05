@@ -256,27 +256,87 @@ a {
     color: var(--accent-gold);
 }
 
-/* ===== ГЛАВНЫЙ БАННЕР ===== */
+/* ===== ОБНОВЛЕННЫЙ ГЛАВНЫЙ БАННЕР С ДВУМЯ ФОНАМИ ===== */
 .hero {
-    background: linear-gradient(rgba(26, 54, 93, 0.9), rgba(26, 54, 93, 0.8)), url('../images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
+    position: relative;
     color: var(--white);
     padding: 100px 0;
     text-align: center;
+    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+}
+
+/* Контейнер для двух фонов */
+.hero-backgrounds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    z-index: 1;
+}
+
+/* Левое фоновое изображение */
+.hero-bg-left {
+    flex: 1;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transform: translateX(0);
+    transition: transform 0.8s ease;
+}
+
+/* Правое фоновое изображение */
+.hero-bg-right {
+    flex: 1;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transform: translateX(0);
+    transition: transform 0.8s ease;
+}
+
+/* Затемнение поверх фонов для лучшей читаемости текста */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(26, 54, 93, 0.7) 0%,
+        rgba(26, 54, 93, 0.5) 50%,
+        rgba(26, 54, 93, 0.3) 100%
+    );
+    z-index: 2;
+}
+
+/* Контент поверх фонов */
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    animation: fadeInUp 1s ease-out;
 }
 
 .hero h1 {
     color: var(--white);
     font-size: 3rem;
     margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero p {
     font-size: 1.2rem;
-    max-width: 700px;
     margin: 0 auto 2rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .hero-buttons {
@@ -284,6 +344,85 @@ a {
     gap: 20px;
     justify-content: center;
     flex-wrap: wrap;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .hero-backgrounds {
+        flex-direction: column;
+    }
+    
+    .hero-bg-left,
+    .hero-bg-right {
+        flex: 0 0 50%;
+        min-height: 50%;
+    }
+    
+    /* На мобильных показываем только левое изображение */
+    .hero-bg-right {
+        display: none;
+    }
+    
+    /* Расширяем левое изображение на весь экран */
+    .hero-bg-left {
+        flex: 0 0 100%;
+        min-height: 100%;
+    }
+    
+    .hero {
+        min-height: 500px;
+        padding: 80px 0;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+}
+
+/* Эффект при наведении для десктопа */
+@media (min-width: 769px) {
+    .hero:hover .hero-bg-left {
+        transform: translateX(-15px);
+    }
+    
+    .hero:hover .hero-bg-right {
+        transform: translateX(15px);
+    }
 }
 
 /* ===== БЛОК "О ПРЕПОДАВАТЕЛЕ" ===== */
